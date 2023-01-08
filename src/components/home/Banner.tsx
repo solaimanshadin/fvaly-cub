@@ -1,7 +1,6 @@
-import React from 'react';
-import { Carousel, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import banner1 from 'assets/images/banner1.png';
 import banner2 from 'assets/images/banner2.png';
+import { Carousel, Col, Container, ListGroup, Row } from 'react-bootstrap';
 const Banner = () => {
   return (
     <div>
@@ -9,15 +8,14 @@ const Banner = () => {
         <Row>
           <Col lg={3}>
             <ListGroup>
-              <ListGroup.Item>Cras justo odio</ListGroup.Item>
-              <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-              <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-              <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-              <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-              <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-              <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-              <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-              <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+              <ListGroup.Item>Winter collection</ListGroup.Item>
+              <ListGroup.Item>Menz Cloths</ListGroup.Item>
+              <ListGroup.Item>Womens Cloths</ListGroup.Item>
+              <ListGroup.Item>Shoes</ListGroup.Item>
+              <ListGroup.Item>Bikes</ListGroup.Item>
+              <ListGroup.Item>Electorics</ListGroup.Item>
+              <ListGroup.Item>Gadgets</ListGroup.Item>
+              <ListGroup.Item>Household</ListGroup.Item>
             </ListGroup>
           </Col>
           <Col lg={9} className="mt-4">

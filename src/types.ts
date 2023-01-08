@@ -8,7 +8,7 @@ export interface IProduct {
   image: string;
   __v: number;
 }
-
+export type IOrder = any;
 export interface IAuthData {
   name: string;
   email: string;

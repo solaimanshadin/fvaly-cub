@@ -10,18 +10,35 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react';
+import Loader from 'components/Loader';
 import useAsync from 'hooks/useAsync';
-import React from 'react';
-import { Spinner } from 'react-bootstrap';
-import { FaEdit, FaPlus } from 'react-icons/fa';
+import { FaEdit, FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ProductService from 'services/ProductService';
+import Swal from 'sweetalert2';
 import imageUrlParser from 'utils/imageUrlParser';
 
 const ProductList = () => {
-  const { data, isLoading, isSuccess, isError, error } = useAsync(
-    ProductService.getMerchantsProducts
+  const { data, isLoading, isSuccess, isError, error, refetchData } = useAsync(
+    ProductService.getProducts
   );
+  const handleDelete = async (id: string) => {
+    Swal.fire({
+      title: 'Are you sure to delete this product?',
+      icon: 'warning',
+
+      showCancelButton: true,
+      confirmButtonText: 'Yes delete',
+      denyButtonText: `Cancel`,
+    }).then(async (result: any) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await ProductService.deleteProduct(id);
+        Swal.fire('Product deleted', '', 'success');
+        refetchData();
+      }
+    });
+  };
   return (
     <div>
       <CCard>
@@ -40,12 +57,12 @@ const ProductList = () => {
                 <CTableHeaderCell>Image</CTableHeaderCell>
                 <CTableHeaderCell>Name</CTableHeaderCell>
                 <CTableHeaderCell>Price</CTableHeaderCell>
-                <CTableHeaderCell>Store ID</CTableHeaderCell>
-                <CTableHeaderCell>Action</CTableHeaderCell>
+                <CTableHeaderCell style={{ width: 100 }}>
+                  Action
+                </CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              {isLoading && <Spinner animation="border" />}
               {isSuccess &&
                 data?.map((product) => (
                   <CTableRow key={product._id}>
@@ -58,10 +75,24 @@ const ProductList = () => {
                     </CTableHeaderCell>
                     <CTableDataCell>{product.name}</CTableDataCell>
                     <CTableDataCell>{product.price}</CTableDataCell>
-                    <CTableDataCell>{product.store}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton variant="outline" color="primary">
-                        <FaEdit />
+                      <Link to={`/dashboard/add-product/${product._id as any}`}>
+                        <CButton
+                          size="sm"
+                          className="me-2"
+                          variant="outline"
+                          color="primary"
+                        >
+                          <FaEdit />
+                        </CButton>
+                      </Link>
+                      <CButton
+                        onClick={() => handleDelete(product._id as any)}
+                        variant="outline"
+                        size="sm"
+                        color="danger"
+                      >
+                        <FaTrashAlt />
                       </CButton>
                     </CTableDataCell>
                   </CTableRow>
@@ -69,6 +100,7 @@ const ProductList = () => {
               {isError && <h3>{error}</h3>}
             </CTableBody>
           </CTable>
+          {isLoading && <Loader />}
         </CCardBody>
       </CCard>
     </div>

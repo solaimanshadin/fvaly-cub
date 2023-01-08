@@ -1,13 +1,14 @@
 import useAsync from 'hooks/useAsync';
+import { useCallback } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { addToCart } from 'redux/actionCreators/cartAction';
 import ProductService from 'services/ProductService';
 import { IProduct } from 'types';
 import imageUrlParser from 'utils/imageUrlParser';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { addToCart } from 'redux/actionCreators/cartAction';
+import Loader from 'components/Loader';
 interface IParams {
   id: string;
 }
@@ -27,7 +28,7 @@ const ProductDetails = () => {
     <div className="product__details__component my-3">
       <Container>
         <div className="wrapper bg-white rounded border p-5">
-          {isLoading && <h3>Loading ....</h3>}
+          {isLoading && <Loader />}
           {isSuccess && (
             <Row>
               <Col md={6}>

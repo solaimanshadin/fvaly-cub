@@ -4,7 +4,6 @@ import {
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { CNavGroup, CNavItem } from '@coreui/react'
-import React from 'react'
 
 const _nav = [
   {
@@ -28,34 +27,21 @@ const _nav = [
         name: 'User List',
         to: '/dashboard/users',
       },
-      {
-        component: CNavItem,
-        name: 'Merchants',
-        to: '/dashboard/merchant',
-      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Merchants',
+      //   to: '/dashboard/merchant',
+      // },
     ],
   },
-  {
-    component: CNavGroup,
-    name: 'Store Management',
-    to: '/dashboard/stores',
-    role: ["admin"],
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Store List',
-        to: '/dashboard/users',
-      },
-    ],
-  },
+
   // For Merchant
   {
     component: CNavGroup,
     name: 'Product Management',
     to: '/dashboard/products',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-    role: ["merchant"],
+    role: ["merchant", "admin"],
 
     items: [
       {
@@ -65,7 +51,14 @@ const _nav = [
       },
     ],
   },
-  
+  {
+    component: CNavItem,
+    name: 'Orders',
+    to: '/dashboard/orders',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    role: ["admin", "merchant"],
+
+}
 ]
 
 export default _nav

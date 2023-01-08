@@ -1,8 +1,7 @@
 import Product from 'components/common/Product';
-import React from 'react';
 import { Container, Row } from 'react-bootstrap';
-import { IProduct } from 'types';
 import ProductsSkeleton from 'skeletons/ProductsSkeleton';
+import { IProduct } from 'types';
 
 interface IProps {
   products: IProduct[] | null;
@@ -10,7 +9,6 @@ interface IProps {
 }
 
 const Products = ({ products, isLoading }: IProps) => {
-  console.log('products', products);
   return (
     <div className="my-5">
       <Container>

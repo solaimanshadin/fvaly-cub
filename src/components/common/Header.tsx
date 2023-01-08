@@ -1,5 +1,4 @@
 import logo from 'assets/images/fvaly.png';
-import React from 'react';
 import {
   Button,
   Container,
@@ -8,14 +7,14 @@ import {
   Nav,
   Navbar,
 } from 'react-bootstrap';
+import { BiSearch, BiUser } from 'react-icons/bi';
 import { BsPhone } from 'react-icons/bs';
 import { FaRegEnvelope, FaSignOutAlt } from 'react-icons/fa';
 import { FiPhoneCall, FiShoppingBag } from 'react-icons/fi';
-import { BiSearch, BiUser } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from 'redux/store';
+import { Link } from 'react-router-dom';
 import { logout } from 'redux/actionCreators/authActionCreators';
+import { AppState } from 'redux/store';
 const Header = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: AppState) => state.cart);
@@ -88,10 +87,13 @@ const Header = () => {
           <Navbar.Brand href="#home">Categories</Navbar.Brand>
           <Nav className="ms-auto">
             <Nav.Link href="#home">News feed</Nav.Link>
-            <Nav.Link as={Link} to="/dashboard">
-              {' '}
-              {data?.role === 'admin' ? 'Dashboard' : 'Merchant Zone'}
-            </Nav.Link>
+            {data?.role && (
+              <Nav.Link as={Link} to="/dashboard">
+                {' '}
+                {data?.role === 'admin' ? 'Dashboard' : 'Profile'}
+              </Nav.Link>
+            )}
+
             <Nav.Link href="#pricing">Help</Nav.Link>
           </Nav>
         </Container>

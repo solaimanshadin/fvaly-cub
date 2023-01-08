@@ -2,7 +2,6 @@ import { cilChartPie } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { CCol, CRow, CWidgetStatsF } from '@coreui/react';
 import useAsync from 'hooks/useAsync';
-import React from 'react';
 import DashboardService from 'services/DashboardService';
 
 const Dashboard = () => {
@@ -10,7 +9,7 @@ const Dashboard = () => {
   return (
     <>
       <CRow>
-        <CCol xs={3}>
+        <CCol xs={4}>
           <CWidgetStatsF
             className="mb-3"
             color="primary"
@@ -20,7 +19,7 @@ const Dashboard = () => {
             value={data?.totalUser}
           />
         </CCol>
-        <CCol xs={3}>
+        {/* <CCol xs={3}>
           <CWidgetStatsF
             className="mb-3"
             color="danger"
@@ -29,8 +28,8 @@ const Dashboard = () => {
             title="Total Store"
             value={data?.totalStore}
           />
-        </CCol>
-        <CCol xs={3}>
+        </CCol> */}
+        <CCol xs={4}>
           <CWidgetStatsF
             className="mb-3"
             color="warning"
@@ -40,7 +39,7 @@ const Dashboard = () => {
             value={data?.totalProduct}
           />
         </CCol>
-        <CCol xs={3}>
+        <CCol xs={4}>
           <CWidgetStatsF
             className="mb-3"
             color="info"

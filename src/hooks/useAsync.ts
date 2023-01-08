@@ -5,8 +5,7 @@ const useAsync = <T>(asyncFunction: () => Promise<T>) => {
   const [data, setData] = useState<T | null>(null);
   const [status, setStatus] = useState<StatusType>('idle');
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
+  const refetchData = () => {
     setStatus('pending');
     setData(null);
     setError(null);
@@ -17,10 +16,13 @@ const useAsync = <T>(asyncFunction: () => Promise<T>) => {
         setError(null);
       })
       .catch((err) => {
-        setError(err);
+        setError(err.message);
         setStatus('error');
         setData(null);
       });
+  };
+  useEffect(() => {
+    refetchData();
   }, [asyncFunction]);
 
   return {
@@ -29,6 +31,7 @@ const useAsync = <T>(asyncFunction: () => Promise<T>) => {
     isLoading: status === 'pending',
     isSuccess: status === 'success',
     isError: status === 'error',
+    refetchData,
   };
 };
 

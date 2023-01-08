@@ -1,17 +1,18 @@
+import { CContainer } from '@coreui/react'
 import React, { Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
 
 // routes config
-import routes from '../routes'
+import Loader from 'components/Loader'
 import { useSelector } from 'react-redux'
+import routes from '../routes'
 
 const AppContent = () => {
   const { data } = useSelector((state) => state.auth)
   const filteredRoutes = routes.filter((route) => route.role.includes(data?.role))
   return (
     <CContainer lg>
-      <Suspense fallback={<CSpinner color="primary" />}>
+      <Suspense fallback={<Loader />}>
         <Switch>
           {filteredRoutes.map((route, idx) => {
             return (

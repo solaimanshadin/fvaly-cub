@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { login } from 'redux/actionCreators/authActionCreators';
 import { AppState } from 'redux/store';
 
@@ -15,7 +15,11 @@ const LoginForm = () => {
     email: '',
     password: '',
   });
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get('redirect');
 
+  console.log('redirect', redirect);
   const { data, status, error } = useSelector((state: AppState) => state.auth);
 
   const dispatch = useDispatch();
@@ -25,7 +29,11 @@ const LoginForm = () => {
   };
 
   if (data) {
-    history.push('/');
+    console.log('redirect', redirect);
+
+    const redirectUrl = redirect || (data.role === 'admin' ? 'dashboard' : '');
+    console.log(redirectUrl, data.role);
+    history.push('/' + redirectUrl);
   }
   return (
     <div className="login__component">

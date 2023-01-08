@@ -8,7 +8,9 @@ import {
   CFormInput,
   CFormLabel,
 } from '@coreui/react';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useHistory, useParams } from 'react-router-dom';
 import ProductService from 'services/ProductService';
 
 interface IFormData {
@@ -17,7 +19,7 @@ interface IFormData {
   category: string;
   description: string;
   store: string;
-  price: string;
+  price: number | string;
   image: any;
   __v: number;
 }
@@ -26,6 +28,8 @@ const AddProduct = () => {
     store: '611133844180ee0b13254168',
     category: '611130734180ee0b1325415e',
   } as IFormData);
+  const { id } = useParams<any>();
+
   const [file, setFile] = useState<string>('');
   const handleFileUpload = (e: any) => {
     setFile(e.target.files[0]);
@@ -34,8 +38,22 @@ const AddProduct = () => {
   const handleOnChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  useEffect(() => {
+    (async () => {
+      if (id) {
+        const productData = await ProductService.getProductByID(id);
+        setFormData({
+          ...formData,
+          name: productData.name,
+          price: productData.price,
+          description: productData.description,
+        });
+      }
+    })();
+  }, [id]);
+  const history = useHistory();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     // const dataSubmit: any = {
     //   ...formData,
     //   image: file,
@@ -48,7 +66,15 @@ const AddProduct = () => {
     newFormData.append('description', formData.description);
     newFormData.append('image', file);
     newFormData.append('price', formData.price);
-    ProductService.addProduct(newFormData);
+    if (id) {
+      await ProductService.updateProduct(id, newFormData);
+      toast.success('Product Updated');
+    } else {
+      await ProductService.addProduct(newFormData);
+      toast.success('Product added');
+    }
+
+    history.push('/dashboard/products');
   };
 
   return (
@@ -63,6 +89,7 @@ const AddProduct = () => {
                 name="name"
                 onChange={handleOnChange}
                 type="text"
+                value={formData.name}
                 id="inputEmail4"
               />
             </CCol>
@@ -70,8 +97,9 @@ const AddProduct = () => {
               <CFormLabel>Price</CFormLabel>
               <CFormInput
                 name="price"
+                value={formData.price}
                 onChange={handleOnChange}
-                type="text"
+                type="number"
                 id="inputPassword4"
               />
             </CCol>
@@ -82,13 +110,14 @@ const AddProduct = () => {
                 onChange={handleOnChange}
                 className="form-control"
                 rows={5}
+                value={formData.description}
                 name="description"
                 id="exampleFormControlTextarea1"
               ></textarea>
             </CCol>
             <CCol xs={12}>
               <div className="mb-3">
-                <CFormLabel>Default file input example</CFormLabel>
+                <CFormLabel>Product Image</CFormLabel>
                 <CFormInput
                   onChange={handleFileUpload}
                   type="file"
@@ -99,7 +128,7 @@ const AddProduct = () => {
 
             <CCol xs={12}>
               <CButton onClick={handleSubmit} type="button">
-                Add Product
+                {id ? 'Update ' : 'Add '} Product
               </CButton>
             </CCol>
           </CForm>
