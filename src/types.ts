@@ -24,3 +24,5 @@ export interface IDashboardStats {
   totalProduct: number;
   totalStore: number;
 }
+
+export type IUser = any;

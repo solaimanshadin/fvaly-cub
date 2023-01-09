@@ -6,7 +6,7 @@ import {
   CCol,
   CForm,
   CFormInput,
-  CFormLabel,
+  CFormLabel
 } from '@coreui/react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -19,7 +19,7 @@ interface IFormData {
   category: string;
   description: string;
   store: string;
-  price: number | string;
+  price: any;
   image: any;
   __v: number;
 }
@@ -64,8 +64,9 @@ const AddProduct = () => {
     newFormData.append('category', formData.category);
     newFormData.append('store', formData.store);
     newFormData.append('description', formData.description);
-    newFormData.append('image', file);
     newFormData.append('price', formData.price);
+
+    newFormData.append('image', file);
     if (id) {
       await ProductService.updateProduct(id, newFormData);
       toast.success('Product Updated');
